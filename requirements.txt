@@ -1,0 +1,7 @@
+beautifulsoup4==4.9.0
+discord.py==1.7.3
+pipenv==2018.11.26
+python-dotenv==0.19.2
+requests==2.23.0
+soupsieve==2.0
+sqlparse==0.4.2
