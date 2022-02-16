@@ -30,7 +30,7 @@ async def on_message(message):
     if message.content.startswith('!link'):
         await message.channel.send('https://static.wixstatic.com/media/c21d0e_9f0910faa19c49e6a70c4d5689e7ddd3~mv2.gif')
 
-@tasks.loop(minutes=60)
+@tasks.loop(seconds=60)
 async def scrape():
     versionHeader = webscraper.sendMessage("Webscraper started", URL)
 
