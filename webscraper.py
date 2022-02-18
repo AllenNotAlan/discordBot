@@ -9,7 +9,6 @@ def scrapeReleasePage(url):
     currentRelease = releaseHeaders[0].text
     return currentRelease
 
-def sendMessage(message, URL):
-    print(message)
+def sendMessage(URL):
     versionHeader = scrapeReleasePage(url=URL)
     return versionHeader
