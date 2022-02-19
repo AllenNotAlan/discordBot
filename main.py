@@ -29,6 +29,7 @@ async def on_ready():
 async def on_message(message):
     content = ""
     commandDict = loadJson(FILE_DIR+"/commandList.json")
+    commandDetected = (message.content).split()[0]
 
     if message.author == client.user:
         return
@@ -38,11 +39,9 @@ async def on_message(message):
         title = "List of commands \n"
         await message.channel.send(title + "```" + msg + "```")
 
-    if message.content in commandDict:
-        commandDetected = message.content
-        if message.content.startswith(commandDetected):
-            content = commandDict[message.content]["commandContent"]
-            await message.channel.send(content)
+    if message.content.startswith(commandDetected):
+        content = commandDict[commandDetected]["commandContent"]
+        await message.channel.send(content)
 
 @tasks.loop(seconds=60)
 async def scrape():
