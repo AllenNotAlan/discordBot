@@ -36,11 +36,13 @@ async def on_message(message):
 
     if message.content.startswith("!help"):
         msg = json.dumps(commandDict, indent=4, sort_keys=True)
-        title = "List of commands \n"
+        title = 'See list of commands below: \n\nNote that the bot currently only detects a command if it is the FIRST element of a message, ie: \n'\
+            '```"!fu @user" will work \n'\
+            '"@user is a !cuck" will NOT work```'
         await message.channel.send(title + "```" + msg + "```")
 
     if message.content.startswith(commandDetected):
-        content = commandDict[commandDetected]["commandContent"]
+        content = commandDict[commandDetected]['commandContent']
         await message.channel.send(content)
 
 @tasks.loop(seconds=60)
