@@ -23,7 +23,7 @@ URL = "https://github.com/AllenNotAlan/LeetCodeSolutions/releases" #For future u
 async def on_ready():
     print('Bot: {0.user} ready'
         .format(client))
-    await scrape.start()
+    # await scrape.start()
 
 @client.event
 async def on_message(message):
@@ -39,8 +39,10 @@ async def on_message(message):
         await message.channel.send(title + "```" + msg + "```")
 
     if message.content in commandDict:
-        content = commandDict[message.content]["commandContent"]
-        await message.channel.send(content)
+        commandDetected = message.content
+        if message.content.startswith(commandDetected):
+            content = commandDict[message.content]["commandContent"]
+            await message.channel.send(content)
 
 @tasks.loop(seconds=60)
 async def scrape():
