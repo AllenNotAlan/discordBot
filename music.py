@@ -38,6 +38,18 @@ class Music(commands.Cog):
             vc.play(source)
 
     @commands.command()
+    async def playCrank(self, ctx):
+        if ctx.author.voice is None:
+            await ctx.send("You're not in a voice channel!")
+        voice_channel = ctx.author.voice.channel
+        if ctx.voice_client is None:
+            await voice_channel.connect()
+            await Music.play(self, ctx, "https://www.youtube.com/watch?v=YCMhsENYTzg&ab_channel=MusicalGroup")
+        else:
+            await ctx.voice_client.move_to(voice_channel)
+
+
+    @commands.command()
     async def pause(self, ctx):
         await ctx.voice_client.pause()
         await ctx.send("Paused")

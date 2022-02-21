@@ -1,17 +1,17 @@
 {
-    "!fu":
+    "fu":
         {
             "commandName": "!fu",
             "commandContent": "https://i.kym-cdn.com/photos/images/newsfeed/000/592/401/02e.gif",
             "information": "Sends FU gif"
         },
-    "!cuck":
+    "cuck":
         {
             "commandName": "!cuck",
             "commandContent": "https://c.tenor.com/cDbLGaD9AS0AAAAd/cuck-whispered.gif",
             "information": "Sends whisper gif"
         },
-    "!test":
+    "test":
         {
             "commandName": "!cuck",
             "commandContent": "https://c.tenor.com/cDbLGaD9AS0AAAAd/cuck-whispered.gif",
