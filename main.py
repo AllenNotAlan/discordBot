@@ -1,71 +1,41 @@
-from distutils import command
-from http import client
 import discord
-from discord.ext import tasks
+from discord.ext import tasks, commands
 import os
 from os.path import join, dirname
 import webscraper
 from dotenv import load_dotenv
-import json
+import music
+import gifsend
 
-#sets up the server environment and allows the fetching of the ENVIRONMENT VARIABLES
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))#gets the absolute directory of the environment (os)
 
-client = discord.Client()
+# @tasks.loop(seconds=60)
+# async def scrape():
+#     versionHeader = webscraper.sendMessage(URL)
 
-FILE_DIR = os.path.dirname(os.path.abspath(__file__)) #gets the absolute directory of the environment (os)
+#     global newestVersion
+#     if newestVersion == None:
+#         newestVersion = versionHeader
 
-newestVersion = None
-URL = "https://github.com/AllenNotAlan/LeetCodeSolutions/releases" #For future use -> will be the link for scraping a webpage
-
-@client.event
-async def on_ready():
-    print('Bot: {0.user} ready'
-        .format(client))
-    # await scrape.start()
-
-@client.event
-async def on_message(message):
-    content = ""
-    commandDict = loadJson(FILE_DIR+"/commandList.json")
-    commandDetected = (message.content).split()[0]
-
-    if message.author == client.user:
-        return
-
-    if message.content.startswith("!help"):
-        msg = json.dumps(commandDict, indent=4, sort_keys=True)
-        title = 'See list of commands below: \n\nNote that the bot currently only detects a command if it is the FIRST element of a message, ie: \n'\
-            '```"!fu @user" will work \n'\
-            '"@user is a !cuck" will NOT work```'
-        await message.channel.send(title + "```" + msg + "```")
-
-    if message.content.startswith(commandDetected):
-        content = commandDict[commandDetected]['commandContent']
-        await message.channel.send(content)
-
-@tasks.loop(seconds=60)
-async def scrape():
-    versionHeader = webscraper.sendMessage(URL)
-
-    global newestVersion
-    if newestVersion == None:
-        newestVersion = versionHeader
-
-    if versionHeader != newestVersion:
-        newestVersion = versionHeader
-        channel = client.get_channel(os.environ.get("CHANNEL_ID_1"))
-        messageToSend = 'New version of ValheimPlus has been released {v}. See {url}.'.format(v=newestVersion, url=URL)
-        await channel.send(messageToSend)
-
-def loadJson(fileName):
-    f = open(fileName, 'r')
-    data = json.load(f)
-    return data
+#     if versionHeader != newestVersion:
+#         newestVersion = versionHeader
+#         channel = client.get_channel(os.environ.get("CHANNEL_ID_1"))
+#         messageToSend = 'New version of ValheimPlus has been released {v}. See {url}.'.format(v=newestVersion, url=URL)
+#         await channel.send(messageToSend)
 
 def main():
-    client.run(os.environ.get("TOKEN")) #MUST NOT BE PUBLIC
+    dotenv_path = join(dirname(__file__), '.env')
+    load_dotenv(dotenv_path)
+
+    cogs = [music, gifsend]
+
+    bot = commands.Bot(command_prefix='!', intents = discord.Intents.all())
+
+    for i in range(len(cogs)):
+       cogs[i].setup(client=bot)
+       print(str(cogs[i]) +" successfully set up")
+
+    bot.run(os.environ.get("TOKEN"))
 
 if __name__ == "__main__":
     main()
