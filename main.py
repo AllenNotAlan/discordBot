@@ -13,7 +13,7 @@ def main():
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)
 
-    cogs = [music, gifsend]
+    cogs = [music, gifsend] #initialised cogs
 
     bot = commands.Bot(command_prefix='!', intents = discord.Intents.all())
 
